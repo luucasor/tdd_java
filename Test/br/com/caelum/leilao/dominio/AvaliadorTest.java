@@ -73,6 +73,15 @@ public class AvaliadorTest {
         assertEquals(200.0, maiores.get(2).getValor(), 0.00001);
     }
 
+    @Test(expected=RuntimeException.class)
+    public void naoDeveAvaliarLeiloesSemNenhumLanceDado() {
+        Leilao leilao = new CriadorDeLeilao()
+                .para("Playstation 3 Novo")
+                .constroi();
+
+        leiloeiro.avalia(leilao);
+    }
+
     @BeforeClass
     public static void testandoBeforeClass() {
         System.out.println("before class");
