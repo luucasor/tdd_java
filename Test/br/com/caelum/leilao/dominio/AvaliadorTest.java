@@ -4,6 +4,9 @@ import br.com.caelum.leilao.dominio.Avaliador;
 import br.com.caelum.leilao.dominio.Lance;
 import br.com.caelum.leilao.dominio.Leilao;
 import br.com.caelum.leilao.dominio.Usuario;
+
+import static org.hamcrest.core.IsCollectionContaining.hasItems;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 
 import org.junit.*;
@@ -37,8 +40,8 @@ public class AvaliadorTest {
 
         leiloeiro.avalia(leilao);
 
-        assertEquals(400.0, leiloeiro.getMaiorLance(), 0.00001);
-        assertEquals(250.0, leiloeiro.getMenorLance(), 0.00001);
+        assertThat(leiloeiro.getMenorLance(), equalTo(250.0));
+        assertThat(leiloeiro.getMaiorLance(), equalTo(400.0));
     }
 
     @Test
@@ -68,9 +71,11 @@ public class AvaliadorTest {
 
         List<Lance> maiores = leiloeiro.getTresMaiores();
         assertEquals(3, maiores.size());
-        assertEquals(400.0, maiores.get(0).getValor(), 0.00001);
-        assertEquals(300.0, maiores.get(1).getValor(), 0.00001);
-        assertEquals(200.0, maiores.get(2).getValor(), 0.00001);
+        assertThat(maiores, hasItems(
+                new Lance(maria, 400),
+                new Lance(joao, 300),
+                new Lance(maria, 200)
+        ));
     }
 
     @Test(expected=RuntimeException.class)
