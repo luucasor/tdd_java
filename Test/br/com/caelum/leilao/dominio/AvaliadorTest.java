@@ -53,8 +53,7 @@ public class AvaliadorTest {
 
         leiloeiro.avalia(leilao);
 
-        assertEquals(1000.0, leiloeiro.getMaiorLance(), 0.00001);
-        assertEquals(1000.0, leiloeiro.getMenorLance(), 0.00001);
+        assertThat(leiloeiro.getMenorLance(), equalTo(leiloeiro.getMaiorLance()));
     }
 
     @Test
@@ -71,6 +70,7 @@ public class AvaliadorTest {
 
         List<Lance> maiores = leiloeiro.getTresMaiores();
         assertEquals(3, maiores.size());
+
         assertThat(maiores, hasItems(
                 new Lance(maria, 400),
                 new Lance(joao, 300),
@@ -80,21 +80,7 @@ public class AvaliadorTest {
 
     @Test(expected=RuntimeException.class)
     public void naoDeveAvaliarLeiloesSemNenhumLanceDado() {
-        Leilao leilao = new CriadorDeLeilao()
-                .para("Playstation 3 Novo")
-                .constroi();
-
+        Leilao leilao = new CriadorDeLeilao().para("Playstation 3 Novo").constroi();
         leiloeiro.avalia(leilao);
     }
-
-    @BeforeClass
-    public static void testandoBeforeClass() {
-        System.out.println("before class");
-    }
-
-    @AfterClass
-    public static void testandoAfterClass() {
-        System.out.println("after class");
-    }
-
 }
