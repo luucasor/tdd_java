@@ -3,7 +3,10 @@ package br.com.caelum.leilao.dominio;
 import org.junit.Before;
 import org.junit.Test;
 
+import static br.com.caelum.leilao.dominio.LeilaoMatcher.temUmLance;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
+
 public class LeilaoTest {
 
     @Test
@@ -11,10 +14,11 @@ public class LeilaoTest {
         Leilao leilao = new CriadorDeLeilao().para("Macbook Pro 15").constroi();
         assertEquals(0, leilao.getLances().size());
 
-        leilao.propoe(new Lance(new Usuario("Steve Jobs"), 2000));
+        Lance lance = new Lance(new Usuario("Steve Jobs"), 2000);
+        leilao.propoe(lance);
 
-        assertEquals(1, leilao.getLances().size());
-        assertEquals(2000.0, leilao.getLances().get(0).getValor(), 0.00001);
+        assertThat(leilao.getLances().size(), equalTo(1));
+        assertThat(leilao, temUmLance(lance));
     }
 
     @Test
